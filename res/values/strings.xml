@@ -3,4 +3,6 @@
     <string name="app_name">Share More</string>
     <string name="share.with.title">Share With Title</string>
     <string name="error.find.title">Cannot find title from URL, please try again later!</string>
+
+    <string name="bitly.enable">Use Bit.ly to shorten URL</string>	
 </resources>
