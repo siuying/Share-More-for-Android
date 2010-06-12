@@ -72,13 +72,10 @@ public class ConfigurationActivity extends PreferenceActivity implements OnShare
 		if (key.equals(ENABLE_INSTA_USERNAME) || key.equals(ENABLE_INSTA_PASSWORD)) {
 			if (username == null || "".equals(username) ||
 				password == null || "".equals(password)) {
-				Toast.makeText(this, 
-						getString(R.string.msg_instapapaer_nopass), 
-						Toast.LENGTH_LONG);
 				return;
+			} else {
+				new MyInstaAuthTask(username, password).execute();
 			}
-			
-			new MyInstaAuthTask(username, password).execute();
 		}
 
 	}
@@ -94,11 +91,11 @@ public class ConfigurationActivity extends PreferenceActivity implements OnShare
 			if (result) {
 				Toast.makeText(ConfigurationActivity.this, 
 						getString(R.string.msg_instapapaer_authok), 
-						Toast.LENGTH_SHORT);
+						Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(ConfigurationActivity.this, 
 						getString(R.string.msg_instapapaer_errauth), 
-						Toast.LENGTH_LONG);
+						Toast.LENGTH_LONG).show();
 			}
 		}
 	}

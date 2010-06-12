@@ -34,6 +34,8 @@ public abstract class GetTitleTask extends AsyncTask<Void, String, String> {
 	private Activity context;
 	private BitlyAndroid bitly;
 	private SharedPreferences pref;
+	
+	private InstapaperException instapaperException;
 
 	public GetTitleTask(Activity context) {
 		this.context = context;
@@ -51,11 +53,12 @@ public abstract class GetTitleTask extends AsyncTask<Void, String, String> {
 			Instapaper instapaper = new Instapaper(getInstaUsername(), getInstaPassword());
 			try {
 				publishProgress(context.getString(R.string.msg_save_instapaper));
-				instapaper.add(url);
+				 instapaper.add(url);
 			} catch (InstapaperException e) {
 				Log.e(TAG, 
 						"failed adding to instapaper, code=" + e.getCode(), 
 						e);
+				instapaperException = e;
 			} catch (ClientProtocolException e) {
 				Log.e(TAG, 
 						"error contact instapaper", 
@@ -112,6 +115,20 @@ public abstract class GetTitleTask extends AsyncTask<Void, String, String> {
 
 	@Override
 	protected void onPostExecute(String newText) {
+		if (instapaperException != null) {
+			switch(instapaperException.getCode()) {
+				case 403:
+					Toast.makeText(context, 
+							context.getString(R.string.msg_instapapaer_errauth), 
+							Toast.LENGTH_LONG).show();
+					break;
+				default:
+					Toast.makeText(context, 
+							context.getString(R.string.msg_instapapaer_errconn), 
+							Toast.LENGTH_LONG).show();
+			}
+		}
+
 		dialog.dismiss();
 	}
 

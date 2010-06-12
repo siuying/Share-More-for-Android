@@ -21,7 +21,7 @@
     <string name="msg.instapapaer.reminder">Please set Instapaper username and password!</string>
     <string name="msg.instapapaer.nopass">You have not set username or password yet!</string>
     
-    <string name="msg.instapapaer.authok">Instapaper account connected!</string>
-    <string name="msg.instapapaer.errauth">Invalid Instapaper username or password!</string>
+    <string name="msg.instapapaer.authok">Instapaper connected!</string>
+    <string name="msg.instapapaer.errauth">Invalid Instapaper username or password, not saved to Instapaper!</string>
     <string name="msg.instapapaer.errconn">Error connecting Instapaper!</string>
 </resources>
