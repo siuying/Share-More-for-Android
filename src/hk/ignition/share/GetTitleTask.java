@@ -1,5 +1,7 @@
 package hk.ignition.share;
 
+import hk.ignition.commons.Instapaper;
+import hk.ignition.commons.InstapaperException;
 import hk.reality.util.WebUtil;
 
 import java.io.IOException;
@@ -31,37 +33,60 @@ public abstract class GetTitleTask extends AsyncTask<Void, String, String> {
 	private String title;
 	private Activity context;
 	private BitlyAndroid bitly;
-	
+	private SharedPreferences pref;
+
 	public GetTitleTask(Activity context) {
 		this.context = context;
 		this.bitly = new BitlyAndroid(context.getString(R.string.bitly_api_user), 
 				context.getString(R.string.bitly_api_key));
+		this.pref = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
 	@Override
 	protected String doInBackground(Void... arg0) {
-		// handle text
-		String text = StringUtils.defaultString(context.getIntent().getExtras().getString(Intent.EXTRA_TEXT));
+		String url = StringUtils.defaultString(context.getIntent().getExtras().getString(Intent.EXTRA_TEXT));
+		
+		// send to instapaper
+		if (isEnabledInstapaper() && !"".equals(getInstaUsername())) {
+			Instapaper instapaper = new Instapaper(getInstaUsername(), getInstaPassword());
+			try {
+				publishProgress(context.getString(R.string.msg_save_instapaper));
+				instapaper.add(url);
+			} catch (InstapaperException e) {
+				Log.e(TAG, 
+						"failed adding to instapaper, code=" + e.getCode(), 
+						e);
+			} catch (ClientProtocolException e) {
+				Log.e(TAG, 
+						"error contact instapaper", 
+						e);
+			} catch (IOException e) {
+				Log.e(TAG, 
+						"error contact instapaper", 
+						e);
+			}
+		}
+
+		// shorten URL
 		if (isEnabledBitly()) {
 			Log.i(TAG, "use bitly to shorten url");
 			try {
 				publishProgress(context.getString(R.string.msg_shorten_url));
-				text = shortenAllUrl(text);
+				url = shortenAllUrl(url);
 			} catch (Exception e) {
 				Log.e(TAG, "Failed to shorten url using Bitly", e);
 			}
 		}
 		
 		// find subject
-		Log.i(TAG, "find subject from URL");
-		
+		Log.i(TAG, "find subject from URL");		
 		publishProgress(context.getString(R.string.msg_find_subject));
 		String subject = context.getIntent().getExtras().getString(Intent.EXTRA_SUBJECT);
 		if (StringUtils.isEmpty(subject)) {
-			subject = findTitleFromUrl(text);
+			subject = findTitleFromUrl(url);
 		}
-		title = String.format("%s %s", subject, text);
-
+		title = String.format("%s %s", subject, url);
+		
 		Log.i(TAG, "shared text: " + title);
 		return title;
 	}
@@ -174,7 +199,18 @@ public abstract class GetTitleTask extends AsyncTask<Void, String, String> {
 	}
 	
 	private boolean isEnabledBitly() {
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		return pref.getBoolean(ConfigurationActivity.ENABLE_BITLY, true);
+	}
+
+	private boolean isEnabledInstapaper() {
+		return pref.getBoolean(ConfigurationActivity.ENABLE_INSTA, true);
+	}
+	
+	private String getInstaUsername() {
+		return pref.getString(ConfigurationActivity.ENABLE_INSTA_USERNAME, "");
+	}
+	
+	private String getInstaPassword() {
+		return pref.getString(ConfigurationActivity.ENABLE_INSTA_PASSWORD, "");
 	}
 }

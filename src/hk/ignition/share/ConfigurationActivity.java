@@ -1,17 +1,16 @@
 package hk.ignition.share;
 
-import hk.ignition.commons.Instapaper;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 public class ConfigurationActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 	private static final String TAG = "ConfigurationActivity";
 	public static final String ENABLE_BITLY = "bitly.enable";
+	public static final String ENABLE_INSTA = "instapaper.enable";
 	public static final String ENABLE_INSTA_USERNAME = "instapaper.username";
 	public static final String ENABLE_INSTA_PASSWORD = "instapaper.password";
 
@@ -79,23 +78,28 @@ public class ConfigurationActivity extends PreferenceActivity implements OnShare
 				return;
 			}
 			
-			Instapaper instapaper = new Instapaper(username, password);
-			try {
-				if (!instapaper.authenticate()) {
-					Log.e(TAG, "failed to authenticate instapaper");
-					Toast.makeText(this, 
-							getString(R.string.msg_instapapaer_errauth), 
-							Toast.LENGTH_LONG);
-					return;
-				}
-			} catch (Exception e) {
-				Log.e(TAG, "error connecting instapaper", e);
-				Toast.makeText(this, 
-						getString(R.string.msg_instapapaer_errconn), 
-						Toast.LENGTH_LONG);
-				return;
-			}
+			new MyInstaAuthTask(username, password).execute();
 		}
 
+	}
+	
+	class MyInstaAuthTask extends InstaAuthTask {
+		public MyInstaAuthTask(String username, String password) {
+			super(ConfigurationActivity.this, username, password);
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			if (result) {
+				Toast.makeText(ConfigurationActivity.this, 
+						getString(R.string.msg_instapapaer_authok), 
+						Toast.LENGTH_SHORT);
+			} else {
+				Toast.makeText(ConfigurationActivity.this, 
+						getString(R.string.msg_instapapaer_errauth), 
+						Toast.LENGTH_LONG);
+			}
+		}
 	}
 }

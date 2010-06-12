@@ -8,16 +8,20 @@
     <string name="bitly.enable">Use Bit.ly to shorten URL</string>
     
     <string name="msg.loading.title">Loading</string>
-    <string name="msg.find.subject">Finding Page Title</string>
-    <string name="msg.shorten.url">Shortening URL</string>	
+    <string name="msg.save.instapaper">Saving to Instapaper ...</string>
+    <string name="msg.find.subject">Finding Page Title ...</string>
+    <string name="msg.shorten.url">Shortening URL ...</string>	
     
     <string name="config.instapaper">Instapaper</string>
     <string name="config.instapaper.enable">Save to Instapaper</string>
     <string name="config.instapaper.username">Instapaper Username</string>
     <string name="config.instapaper.password">Instapaper Password</string>
     
+    <string name="msg.instapapaer.auth">Connecting to Instapaper</string>
     <string name="msg.instapapaer.reminder">Please set Instapaper username and password!</string>
     <string name="msg.instapapaer.nopass">You have not set username or password yet!</string>
+    
+    <string name="msg.instapapaer.authok">Instapaper account connected!</string>
     <string name="msg.instapapaer.errauth">Invalid Instapaper username or password!</string>
     <string name="msg.instapapaer.errconn">Error connecting Instapaper!</string>
 </resources>
