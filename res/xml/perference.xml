@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<CheckBoxPreference 
-		android:title="@string/bitly.enable"
-		android:key="bitly.enable"
-		android:defaultValue="true">
-	</CheckBoxPreference>
+	<PreferenceCategory android:title="@string/config.bitly">
+		<CheckBoxPreference android:title="@string/bitly.enable"
+			android:key="bitly.enable" android:defaultValue="true">
+		</CheckBoxPreference>
+	</PreferenceCategory>
+	
+	<PreferenceCategory android:title="@string/config.instapaper">
+		<CheckBoxPreference android:title="@string/config.instapaper.enable"
+			android:key="instapaper.enable" android:defaultValue="false">
+		</CheckBoxPreference>
+		<EditTextPreference android:title="@string/config.instapaper.username"
+			android:key="instapaper.username" android:dependency="instapaper.enable">
+		</EditTextPreference>
+		<EditTextPreference android:password="true"
+			android:title="@string/config.instapaper.password" android:key="instapaper.password"
+			android:dependency="instapaper.enable">
+		</EditTextPreference>
+	</PreferenceCategory>
 </PreferenceScreen>

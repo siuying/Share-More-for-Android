@@ -3,6 +3,7 @@ package hk.ignition.share;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.util.Log;
 import android.view.Window;
 
