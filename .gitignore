@@ -1,2 +1,4 @@
 bin
-xml/values/config.xml
+res/values/config.xml
+gen
+
