@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Replace these values with your bitly api user and key, uncomment them,
+	 and rename this file to config.xml -->
+    <!-- <string name="bitly.api_user"></string> -->
+    <!-- <string name="bitly.api_key"></string> -->
+</resources>

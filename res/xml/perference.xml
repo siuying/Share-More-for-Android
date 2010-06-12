@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<CheckBoxPreference 
 		android:title="@string/bitly.enable"
-		android:key="bitly.enable">
+		android:key="bitly.enable"
+		android:defaultValue="true">
 	</CheckBoxPreference>
 </PreferenceScreen>
